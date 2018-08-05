@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="JAX-WS_RI_PRICING_WS_MAVENEAR">
+        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="JAX-WS_RI_PRICING_WS_MAVEN.war" deploy-path="/" handle="module:/resource/JAX-WS_RI_PRICING_WS_MAVEN/JAX-WS_RI_PRICING_WS_MAVEN">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>

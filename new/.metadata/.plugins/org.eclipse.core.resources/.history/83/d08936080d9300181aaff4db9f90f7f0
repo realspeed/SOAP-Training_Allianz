@@ -1,0 +1,92 @@
+package com.allianz.pricingdetailsservice.handler;
+
+import java.io.ByteArrayOutputStream;
+import java.io.StringReader;
+import java.util.Map;
+import java.util.Set;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.handler.soap.SOAPHandler;
+import javax.xml.ws.handler.soap.SOAPMessageContext;
+
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+
+public class PricingHandler implements SOAPHandler<SOAPMessageContext> {
+	public static String getSOAPResponse;
+    public static String outputSoapMsg;
+     
+    public PricingHandler() 
+    {
+    }
+     
+    public void init(Map mapCollection) 
+    {
+    }
+ 
+    public Set<QName> getHeaders() {
+        return null;
+    }
+ 
+    public boolean handleMessage(SOAPMessageContext messageContext) 
+    {
+        getRequestResponse(messageContext);
+        return true;
+    }
+ 
+    public boolean handleFault(SOAPMessageContext messageContext) {
+        getRequestResponse(messageContext);
+        return true;
+    }
+ 
+     
+    public void close(MessageContext messageContext) {
+    }
+     
+    public void destroy() {
+    }
+    public void getRequestResponse(SOAPMessageContext messageContext) 
+    {       
+    	Boolean outboundProperty = (Boolean) messageContext.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
+        SOAPMessage objSOAPMessage = null;
+        ByteArrayOutputStream objByteArrayOS =null;
+        Document objDocument = null;
+        InputSource objInputSource =null;
+        DocumentBuilderFactory documentBuilderFactory = null;
+        DocumentBuilder documentBuilder =null;
+         
+        try
+        {
+            objSOAPMessage = messageContext.getMessage();
+            objByteArrayOS = new ByteArrayOutputStream();
+            objSOAPMessage.writeTo(objByteArrayOS);
+             
+            if (!outboundProperty.booleanValue()) 
+            {
+            	
+            	SchemaFactory sFactory=SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI);
+            	Schema schema=sFactory.newSchema();
+            	Validator validator=schema.newValidator();
+            	validator.validate();
+            	
+                documentBuilderFactory = DocumentBuilderFactory.newInstance();
+                documentBuilder = documentBuilderFactory.newDocumentBuilder();
+                objInputSource = new InputSource(new StringReader(objByteArrayOS.toString()));
+                objDocument = documentBuilder.parse(objInputSource);
+                
+                
+            }
+       }    
+       catch (Exception errorException) 
+       {
+       }
+    }
+}

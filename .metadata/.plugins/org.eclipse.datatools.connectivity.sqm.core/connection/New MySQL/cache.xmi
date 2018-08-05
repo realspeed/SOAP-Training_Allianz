@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SQLAccessControl="http:///org/eclipse/datatools/modelbase/sql/accesscontrol.ecore" xmlns:SQLConstraints="http:///org/eclipse/datatools/modelbase/sql/constraints.ecore" xmlns:SQLDataTypes="http:///org/eclipse/datatools/modelbase/sql/datatypes.ecore" xmlns:SQLSchema="http:///org/eclipse/datatools/modelbase/sql/schema.ecore" xmlns:SQLTables="http:///org/eclipse/datatools/modelbase/sql/tables.ecore">
+  <SQLSchema:Database name="mysql_schema" vendor="MySql" version="5.1" schemas="/1" authorizationIds="/4 /5">
+    <eAnnotations source="ConnectionURI">
+      <details key="ConnectionKey" value="New MySQL"/>
+    </eAnnotations>
+  </SQLSchema:Database>
+  <SQLSchema:Schema name="mysql_schema" indices="/2" tables="/3" database="/0"/>
+  <SQLConstraints:Index name="pollfnr_UNIQUE" Schema="/1" unique="true" table="/3">
+    <members column="/3/pollfnr"/>
+  </SQLConstraints:Index>
+  <SQLTables:PersistentTable name="vertrag" schema="/1" index="/2">
+    <columns name="vertr#" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:IntegerDataType" name="INT" primitiveType="INTEGER"/>
+    </columns>
+    <columns name="pollfnr" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:IntegerDataType" name="INT" primitiveType="INTEGER"/>
+    </columns>
+    <columns name="stadium" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:IntegerDataType" name="INT" primitiveType="INTEGER"/>
+    </columns>
+    <columns name="hsp_product" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:IntegerDataType" name="INT" primitiveType="INTEGER"/>
+    </columns>
+    <constraints xsi:type="SQLConstraints:PrimaryKey" name="PRIMARY" members="/3/vertr%23"/>
+  </SQLTables:PersistentTable>
+  <SQLAccessControl:User name="root [localhost]" label="root [localhost]" Database="/0"/>
+  <SQLAccessControl:User name="mysql.sys [localhost]" label="mysql.sys [localhost]" Database="/0"/>
+</xmi:XMI>

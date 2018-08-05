@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:is="http://www.irctc.co.in/services/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="irctc" targetNamespace="http://www.irctc.co.in/services/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.irctc.co.in/services/">
+     	<xsd:complexType name="personInfo">
+     		<xsd:sequence>
+     			<xsd:element name="personName" type="xsd:string"/>
+     			<xsd:element name="age"></xsd:element>
+     		</xsd:sequence>
+     	</xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="NewOperationRequest">
+    <wsdl:part element="is:NewOperation" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="NewOperationResponse">
+    <wsdl:part element="is:NewOperationResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="irctc">
+    <wsdl:operation name="NewOperation">
+      <wsdl:input message="is:NewOperationRequest"/>
+      <wsdl:output message="is:NewOperationResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="irctcSOAP" type="is:irctc">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="NewOperation">
+      <soap:operation soapAction="http://www.irctc.co.in/services/NewOperation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="irctc">
+    <wsdl:port binding="is:irctcSOAP" name="irctcSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

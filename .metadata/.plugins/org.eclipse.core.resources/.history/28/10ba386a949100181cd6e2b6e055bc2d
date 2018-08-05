@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<welcome-file-list>  
+	   <welcome-file>home.html</welcome-file>  
+	 </welcome-file-list>  
+	<servlet>
+		<servlet-name>rest</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>com.realspeed.resources</param-value>
+		</init-param>
+		<init-param>
+			<param-name>jersey.config.server.provider.scanning.recursive</param-name>
+			<param-value>true</param-value>
+		</init-param> 
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>rest</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>form</web-resource-name>
+			<url-pattern>/rest/*</url-pattern>
+			<!-- <http-method>GET</http-method> -->
+			<!-- <http-method>POST</http-method> -->
+			<!-- <http-method>PUT</http-method> -->
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ADMIN</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.html</form-login-page>
+			<form-error-page>/error.html</form-error-page>
+		</form-login-config>
+	</login-config>
+	<security-role>
+		<role-name>ADMIN</role-name>
+	</security-role>
+	
+	<!-- 
+		inside C:\Servers\apache-tomcat-9.0.4-windows-x64\apache-tomcat-9.0.4\conf\tomcat-users
+		  <role rolename="ADMIN"/>
+		  <role rolename="USER"/>
+		  <user username="admin" password="realspeed" roles="ADMIN"/>
+		  <user username="user" password="realspeed" roles="USER"/>
+		  <user username="realspeed" password="realspeed" roles="ADMIN,USER"/>
+	 -->
+</web-app>

@@ -1,0 +1,8 @@
+package com.test;
+
+public class Test {
+	public static void main(String[] args) {
+		createQrCode("www.google.com",250, "E://");
+	}
+	
+}

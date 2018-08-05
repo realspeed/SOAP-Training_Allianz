@@ -1,0 +1,10 @@
+
+‹squid:S2293M"YReplace the type specification in this constructor call with the diamond operator ("<>").(¡ä˜üÿÿÿÿHRMINORZ
+CODE_SMELL
+€squid:S00112j"FDefine and throw a dedicated exception instead of using a generic one.(ËĞøûÿÿÿÿ8™«Ö³Ğ,HâRMAJORZ
+CODE_SMELL
+k
+squid:S106D"9Replace this use of System.out or System.err by a logger.(¾î×;8½ÇÙ³Ğ,HúRMAJORZ
+CODE_SMELL
+Ysquid:S16028",Remove useless curly braces around statement(÷õ¤åH RMINORZ
+CODE_SMELL

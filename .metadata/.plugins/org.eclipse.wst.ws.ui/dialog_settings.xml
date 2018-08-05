@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="1/org.eclipse.jst.ws.wsImpl.java">
+		<item value="/Anuja_MedicalAssessment/WebContent/WEB-INF/calculator_1.wsdl"/>
+		<item value="/SOAP-WS-RI_IMPL/src/main/webapp/wsdl/medicalAssessmentSOAP.wsdl"/>
+	</list>
+	<list key="0/org.eclipse.jst.ws.wsImpl.java">
+		<item value="com.test.training.HelloService"/>
+	</list>
+</section>

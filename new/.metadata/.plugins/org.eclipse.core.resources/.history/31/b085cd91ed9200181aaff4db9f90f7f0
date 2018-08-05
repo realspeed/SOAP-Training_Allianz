@@ -1,0 +1,8 @@
+package com.allianz.pricingdetailsservice.handler;
+
+public class Snippet {
+	public static void main(String[] args) {
+		com.allianz.pricingdetailsservice.handler
+	}
+}
+

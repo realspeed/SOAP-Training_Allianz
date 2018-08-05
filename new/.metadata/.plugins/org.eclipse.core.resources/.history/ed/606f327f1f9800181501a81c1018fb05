@@ -1,0 +1,16 @@
+package com.test;
+
+import com.util.QRCodeCreatorUtil;
+
+public class Test {
+	public static void main(String[] args) {
+		
+		String qrCodeContent="https://crunchify.com/java-simple-qr-code-generator-example";
+		int sizeOfQrCode=150;
+		String qrCreationPath="E:/";
+		
+		QRCodeCreatorUtil.createQrCode(qrCodeContent,sizeOfQrCode, qrCreationPath);
+		
+	}
+	
+}

@@ -1,0 +1,60 @@
+/**
+ * MedicalAssessmentSOAPBindingSkeleton.java
+ *
+ * This file was auto-generated from WSDL
+ * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
+ */
+
+package medicalAssessment.abs.allianz.tr.medicalAssessment;
+
+public class MedicalAssessmentSOAPBindingSkeleton implements medicalAssessment.abs.allianz.tr.medicalAssessment.MedicalAssessment, org.apache.axis.wsdl.Skeleton {
+    private medicalAssessment.abs.allianz.tr.medicalAssessment.MedicalAssessment impl;
+    private static java.util.Map _myOperations = new java.util.Hashtable();
+    private static java.util.Collection _myOperationsList = new java.util.ArrayList();
+
+    /**
+    * Returns List of OperationDesc objects with this name
+    */
+    public static java.util.List getOperationDescByName(java.lang.String methodName) {
+        return (java.util.List)_myOperations.get(methodName);
+    }
+
+    /**
+    * Returns Collection of OperationDescs
+    */
+    public static java.util.Collection getOperationDescs() {
+        return _myOperationsList;
+    }
+
+    static {
+        org.apache.axis.description.OperationDesc _oper;
+        org.apache.axis.description.FaultDesc _fault;
+        org.apache.axis.description.ParameterDesc [] _params;
+        _params = new org.apache.axis.description.ParameterDesc [] {
+            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tr.allianz.abs.medicalAssessment/medicalAssessment/datamodel", "medicalAssessmentRequest"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://tr.allianz.abs.medicalAssessment/medicalAssessment/datamodel", ">medicalAssessmentRequest"), medicalAssessment.abs.allianz.tr.medicalAssessment.datamodel.MedicalAssessmentRequest.class, false, false), 
+        };
+        _oper = new org.apache.axis.description.OperationDesc("getMedicalAssessmentStatus", _params, new javax.xml.namespace.QName("http://tr.allianz.abs.medicalAssessment/medicalAssessment/datamodel", "medicalAssessmentResponse"));
+        _oper.setReturnType(new javax.xml.namespace.QName("http://tr.allianz.abs.medicalAssessment/medicalAssessment/datamodel", ">medicalAssessmentResponse"));
+        _oper.setElementQName(new javax.xml.namespace.QName("", "getMedicalAssessmentStatus"));
+        _oper.setSoapAction("http://tr.allianz.abs.medicalAssessment/medicalAssessment/getMedicalAssessmentStatus");
+        _myOperationsList.add(_oper);
+        if (_myOperations.get("getMedicalAssessmentStatus") == null) {
+            _myOperations.put("getMedicalAssessmentStatus", new java.util.ArrayList());
+        }
+        ((java.util.List)_myOperations.get("getMedicalAssessmentStatus")).add(_oper);
+    }
+
+    public MedicalAssessmentSOAPBindingSkeleton() {
+        this.impl = new medicalAssessment.abs.allianz.tr.medicalAssessment.MedicalAssessmentSOAPBindingImpl();
+    }
+
+    public MedicalAssessmentSOAPBindingSkeleton(medicalAssessment.abs.allianz.tr.medicalAssessment.MedicalAssessment impl) {
+        this.impl = impl;
+    }
+    public medicalAssessment.abs.allianz.tr.medicalAssessment.datamodel.MedicalAssessmentResponse getMedicalAssessmentStatus(medicalAssessment.abs.allianz.tr.medicalAssessment.datamodel.MedicalAssessmentRequest parameters) throws java.rmi.RemoteException
+    {
+        medicalAssessment.abs.allianz.tr.medicalAssessment.datamodel.MedicalAssessmentResponse ret = impl.getMedicalAssessmentStatus(parameters);
+        return ret;
+    }
+
+}

@@ -1,0 +1,19 @@
+
+]
+-WebContent/WEB-INF/PricingDetailsService.wsdl,c\1\c1770f8fc469c41e1bedf0b142e93eefa6edce29
+q
+Asrc/com/allianz/pricingdetailsservice/datamodel/package-info.java,f\8\f818f2a5529486732bff43963b7975ef4d2c17ca
+r
+Bsrc/com/allianz/pricingdetailsservice/datamodel/ObjectFactory.java,f\8\f8fb808031b85751c92e85eba2ad25bfc3d74947
+p
+@src/com/allianz/pricingdetailsservice/PricingDetailsService.java,9\a\9a8be43ed7b457165a32e51459a1105976d58d55
+i
+9src/com/allianz/pricingdetailsservice/PricingDetails.java,e\8\e876a6c9864c5087f5d1c0d1ae53ce075dce085d
+v
+Fsrc/com/allianz/pricingdetailsservice/datamodel/PricingOutputType.java,3\6\36177f30d1a8d63d39541cdf0a330ed490d2b93c
+P
+ WebContent/WEB-INF/sun-jaxws.xml,3\e\3eacc4dbd24a124f77e34334b115e26affefdbc0
+m
+=src/com/allianz/pricingdetailsservice/PricingDetailsImpl.java,6\4\647c0e1e93e5f96ca890cf26b8305c86553ba564
+J
+WebContent/WEB-INF/web.xml,c\5\c510f2eaee6faa7ce096cfb89f5dcfc359c14265

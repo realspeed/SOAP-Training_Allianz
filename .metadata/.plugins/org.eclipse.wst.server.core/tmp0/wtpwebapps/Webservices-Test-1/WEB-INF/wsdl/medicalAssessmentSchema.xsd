@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://tr.allianz.abs.medicalAssessment/medicalAssessment/datamodel" elementFormDefault="unqualified" targetNamespace="http://tr.allianz.abs.medicalAssessment/medicalAssessment/datamodel">
+  	
+  <element name="medicalAssessmentRequest">
+    		
+    <complexType>
+      			
+      <sequence>
+        				
+        <element name="policyNumber" type="int"/>
+        				
+        <element name="productCode" type="int"/>
+        				
+        <element name="status" type="string"/>
+        				
+        <element name="description" type="string"/>
+        			
+      </sequence>
+      		
+    </complexType>
+    	
+  </element>
+  	
+  <element name="medicalAssessmentResponse">
+    		
+    <complexType>
+      			
+      <sequence>
+        				
+        <element name="resultCode" type="string"/>
+        				
+        <element name="resultDescription" type="string"/>
+        			
+      </sequence>
+      		
+    </complexType>
+    	
+  </element>
+  
+</schema>

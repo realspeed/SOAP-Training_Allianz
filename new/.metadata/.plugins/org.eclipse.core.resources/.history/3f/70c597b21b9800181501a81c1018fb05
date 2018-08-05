@@ -1,0 +1,10 @@
+package com.test;
+
+import com.util.QRCodeCreatorUtil;
+
+public class Test {
+	public static void main(String[] args) {
+		QRCodeCreatorUtil.createQrCode("www.google.com",250, "E://");
+	}
+	
+}

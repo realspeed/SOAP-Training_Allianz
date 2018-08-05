@@ -1,0 +1,24 @@
+
+q
+squid:S106$"9Replace this use of System.out or System.err by a logger.(ë“µïùÿÿÿÿ8£ãèÌ,HRMAJORZ
+CODE_SMELL
+q
+squid:S106%"9Replace this use of System.out or System.err by a logger.(ƒô¾øúÿÿÿÿ8£ãèÌ,HRMAJORZ
+CODE_SMELL
+„squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ŠÊ¤“ıÿÿÿÿ8œ†øçÌ,H×RMAJORZ
+CODE_SMELL
+l
+squid:S106&"9Replace this use of System.out or System.err by a logger.(€›æë8£ãèÌ,HRMAJORZ
+CODE_SMELL
+squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(†¨÷È8”©•èÌ,HşRMAJORZ
+CODE_SMELL
+{squid:S2095"GUse try-with-resources or close this "Statement" in a "finally" clause.(íñéşÿÿÿÿ8ç˜èÌ,H…RBLOCKERZBUG
+{squid:S2095 "GUse try-with-resources or close this "ResultSet" in a "finally" clause.(¥‰„¡ÿÿÿÿÿ8¡ÒšèÌ,HŠRBLOCKERZBUG
+^squid:S00108")Either remove or fill this block of code.(”ı¾8’•ôçÌ,H¡RMAJORZ
+CODE_SMELL
+l
+squid:S106!"9Replace this use of System.out or System.err by a logger.(ç×¤«8ü•¡èÌ,H‘RMAJORZ
+CODE_SMELL
+l
+squid:S106#"9Replace this use of System.out or System.err by a logger.(Âî¥ú8£ãèÌ,HRMAJORZ
+CODE_SMELL

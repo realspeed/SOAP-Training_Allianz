@@ -1,0 +1,12 @@
+/**
+ * MedicalAssessment.java
+ *
+ * This file was auto-generated from WSDL
+ * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
+ */
+
+package medicalAssessment.abs.allianz.tr.medicalAssessment;
+
+public interface MedicalAssessment extends java.rmi.Remote {
+    public medicalAssessment.abs.allianz.tr.medicalAssessment.datamodel.MedicalAssessmentResponse getMedicalAssessmentStatus(medicalAssessment.abs.allianz.tr.medicalAssessment.datamodel.MedicalAssessmentRequest parameters) throws java.rmi.RemoteException;
+}

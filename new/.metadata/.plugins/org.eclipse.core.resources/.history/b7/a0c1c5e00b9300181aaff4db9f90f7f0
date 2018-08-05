@@ -1,0 +1,117 @@
+package com.allianz.pricingdetailsservice.handler;
+
+import java.io.ByteArrayOutputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.soap.Node;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.transform.OutputKeys;
+import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.handler.soap.SOAPHandler;
+import javax.xml.ws.handler.soap.SOAPMessageContext;
+
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+
+import com.sun.xml.bind.v2.runtime.XMLSerializer;
+
+public class PricingHandler implements SOAPHandler<SOAPMessageContext> {
+	public static String getSOAPResponse;
+    public static String outputSoapMsg;
+     
+    public PricingHandler() 
+    {
+    }
+     
+    public void init(Map mapCollection) 
+    {
+    }
+ 
+    public Set<QName> getHeaders() {
+        return null;
+    }
+ 
+    public boolean handleMessage(SOAPMessageContext messageContext) 
+    {
+        getRequestResponse(messageContext);
+        return true;
+    }
+ 
+    public boolean handleFault(SOAPMessageContext messageContext) {
+        getRequestResponse(messageContext);
+        return true;
+    }
+ 
+     
+    public void close(MessageContext messageContext) {
+    }
+     
+    public void destroy() {
+    }
+    public void getRequestResponse(SOAPMessageContext messageContext) 
+    {       
+        SOAPMessage objSOAPMessage = null;
+        ByteArrayOutputStream objByteArrayOS =null;
+        Boolean outboundProperty;
+        Document objDocument = null;
+        InputSource objInputSource =null;
+        DocumentBuilderFactory documentBuilderFactory = null;
+        DocumentBuilder documentBuilder =null;
+        OutputFormat outFormat = null;
+        Writer streamWriter = null;
+        XMLSerializer serializeXML = null;
+         
+        try
+        {
+             
+            objSOAPMessage = messageContext.getMessage();
+            objByteArrayOS = new ByteArrayOutputStream();
+            objSOAPMessage.writeTo(objByteArrayOS);
+            outboundProperty = (Boolean) messageContext.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
+             
+            if (!outboundProperty.booleanValue()) 
+            {
+                documentBuilderFactory = DocumentBuilderFactory.newInstance();
+                documentBuilder = documentBuilderFactory.newDocumentBuilder();
+                objInputSource = new InputSource(new StringReader(objByteArrayOS.toString()));
+                objDocument = documentBuilder.parse(objInputSource);
+                outFormat = new OutputKeys(objDocument);
+                outFormat.setIndenting(true);
+                outFormat.setIndent(2);
+                 
+                streamWriter = new StringWriter();
+                serializeXML = new XMLSerializer(streamWriter, outFormat);
+                serializeXML.serialize(objDocument);
+                getSOAPResponse = streamWriter.toString();
+                objDBCustom.logDebugInfo("Web Service Response : " + getSOAPResponse);
+                 
+                if(!getSOAPResponse.equals(""))
+                {
+                    if(DBCustom.gResponseData ==null)
+                        DBCustom.gResponseData = new StringBuffer(); 
+                    DBCustom.gResponseData.append(getSOAPResponse);
+                }
+                else
+                     objDBCustom.logDebugInfo("Unable to get response Data");
+            }
+            else
+            {
+                 objDBCustom.logDebugInfo("In getRequestResponse() function: Web Service request sent");
+            }
+       }    
+       catch (Exception errorException) 
+       {
+            objDBCustom.logErrorInfo("Exception in logging handler: " + errorException.toString());            
+       }
+    }
+}

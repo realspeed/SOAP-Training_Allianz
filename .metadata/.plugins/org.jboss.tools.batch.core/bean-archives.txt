@@ -1,0 +1,3 @@
+path=C:\Users\Dhananjay Samanta\.m2\repository\com\sun\xml\ws\jaxws-rt\2.3.0\jaxws-rt-2.3.0.jar
+size=2613698
+archive=0

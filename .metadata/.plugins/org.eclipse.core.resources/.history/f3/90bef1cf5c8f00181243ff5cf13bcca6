@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif; }
+form { padding-left:29%;}
+div{
+border: 3px solid #f1f1f1;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 5px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+.addbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: 	#008000;
+}
+
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+img.avatar {
+    width: 20%;
+    border-radius: 30%;
+}
+
+.container {
+    padding: 2px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 50px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+}
+form{
+	width: 40%;
+	
+}
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+</style>
+<script src="js/angular.js"></script>
+<script>
+	var prodAjzxApp = angular.module("myApp", []);
+	
+	prodAjzxApp.controller("myCtrl", [ '$scope', '$http', function($scope, $http) {
+	 
+		$http({
+            url : 'http://localhost:8085/AngularJSWithRest/rest/product/getAll',
+            method : "GET",
+      
+        }).then(function(response) {
+        	//success case
+            //console.log(response.data);
+            $scope.products = response.data;
+        }, function(response) {
+            //fail case
+            //console.log(response);
+           // $scope.message = response;
+        });
+$scope.isReverse=false;
+$scope.sortItem="";
+
+	    $http.defaults.headers.post["Content-Type"] = "application/json; charset=utf-8";
+	     
+	    $scope.sendPost = function() {
+	        $http({
+	            url : 'http://localhost:8085/AngularJSWithRest/rest/product/add',
+	            method : "POST",
+	            data : {
+	            	"brand": $scope.name,
+	                "productDesc": $scope.desc,
+	                "cost": $scope.cost
+	            }
+	        }).then(function(response) {
+	            //$scope.message = response.data;
+	            $scope.name="";
+	            $scope.desc="";
+	            $scope.cost=""
+	            
+	            	$http({
+	    	            url : 'http://localhost:8085/AngularJSWithRest/rest/product/getAll',
+	    	            method : "GET",
+	    	      
+	    	        }).then(function(response) {
+	    	        	//success case
+	    	            //console.log(response.data);
+	    	            $scope.products = response.data;
+	    	        }, function(response) {
+	    	            //fail case
+	    	            //console.log(response);
+	    	           // $scope.message = response;
+	    	        });
+	    	$scope.isReverse=false;
+	    	$scope.sortItem="";
+	            
+	        }, function(response) {
+	            //fail case
+	           // $scope.message = response;
+	        });
+	 
+	    };
+	} ]);
+</script>
+</head>
+	<body ng-controller="myCtrl">
+		<h2 style="color:#008000">{{message}}</h2>
+		
+		<form ng-submit="sendPost()" method="POST">
+		  <div class="container">
+		  	<h2>Add Product</h2>
+		    <label for="name"><b>Brand</b></label>
+		    <input type="text" placeholder="Enter Brand Name" ng-model="name" required>
+		    <label for="desc"><b>Description</b></label>
+		    <input type="text" placeholder="Enter Product Description" ng-model="desc" required>
+		    <label for="cost"><b>Cost</b></label>
+		    <input type="text" placeholder="Enter Cost of the Product" ng-model="cost" required>
+		    <button type="submit" class="addbtn" target="_blank">Add Product</button>
+		    <button type="button" class="cancelbtn">Cancel</button>
+		  </div>
+		</form>
+		
+	<table id="customers">
+	  <tr>
+	  	<th><a href="#" ng-click="isReverse=!isReverse ; sortItem='productNo' ">Product No</a></th>
+	    <th><a href="#" ng-click="isReverse=!isReverse ; sortItem='brand' ">Brand</a></th>
+	    <th><a href="#" ng-click="isReverse=!isReverse ; sortItem='productDesc' ">Description</a></th>
+	    <th><a href="#" ng-click="isReverse=!isReverse ; sortItem='cost' ">Price</a></th>
+	  </tr>
+	  <tr ng-repeat="item in products |orderBy:sortItem:isReverse ">
+	  	<td>{{item.productNo}}</td>
+	    <td>{{item.brand}}</td>
+	    <td>{{item.productDesc}}</td>
+	    <td>{{item.cost |currency:"&#8377;."}}</td>
+	  </tr>
+	
+	</table>
+	
+	</body>
+</html>

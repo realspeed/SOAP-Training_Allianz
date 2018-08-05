@@ -1,0 +1,248 @@
+package com.ad.auditAccessor;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+public class AuditAccessor {
+	
+	public static String insert(String firstname,String lastname,String address,int salary,String createdBy ){
+		Connection con=ConnectionManager.getConnection();
+		String status=null;
+		int count=0;
+		try {
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery("select count(*) from audit_emp");
+		
+			if (rs.next()) {
+				count=rs.getInt(1)+1000;
+			}
+			st.executeUpdate("insert into audit_emp values("+count+",'"+firstname+"','"+lastname+"','"+address+"',"+salary+",SYSDATE,'"+createdBy+"',SYSDATE,'"+createdBy+"')");
+		
+			status="inserted";
+			
+		} catch (Exception e) {
+			status="failed";
+		}
+		audit_insert(count, "insert", "NA", "NA", createdBy, "SYSDATE", createdBy, "SYSDATE");
+		return status;
+	}
+	public static int login(String username,String password){
+		Connection con=ConnectionManager.getConnection();
+		int slno=0;
+		try {
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery("select * from audit_user where userName='"+username+"' and password='"+password+"' ");
+			if (rs!=null) {
+				if (rs.next()) {
+					slno=rs.getInt(3);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return slno;
+}
+	public static List<Employee> fetch(){
+		Connection con=ConnectionManager.getConnection();
+		List<Employee> empList=new ArrayList<Employee>();
+		Employee emp=null;
+		int slno=0;
+		try {
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery("select * from audit_emp");
+			while(rs.next()){
+				emp=new Employee();
+				emp.setEmp_id(rs.getInt(1));
+				emp.setFirstName(rs.getString(2));
+				emp.setLastName(rs.getString(3));
+				emp.setAddress(rs.getString(4));
+				emp.setSalary(rs.getInt(5));
+				empList.add(emp);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return empList;
+		
+	} 
+	public static String update(int empId,String firstname,String lastname,String address,int salary,String user){
+		Connection con=ConnectionManager.getConnection();
+		AuditDetails details=AuditAccessor.fetchAuditEmp(empId);
+		String status=null;
+		try {
+			Statement st=con.createStatement();
+			st.executeUpdate("update audit_emp set FIRSTNAME='"+firstname+"',LASTNAME='"+lastname+"',ADDRESS='"+address+"',SALARY="+salary+" ,MODIFIEDDATE=SYSDATE,MODIFIEDBY='"+user+"' where EMP_ID="+empId+" ");
+		status="updated";
+		String modifiedValue=null;
+		if (!details.getFirstName().equals(firstname)) {
+			modifiedValue=firstname;
+			audit_update(empId, "update", details.getFirstName(), firstname,details.getCreatedBy(),details.getCreatedDate(),user,"","FIRST NAME");
+		}
+		if (!details.getLastName().equals(lastname)) {
+			audit_update(empId, "update", details.getLastName(),lastname,details.getCreatedBy(),details.getCreatedDate(),user,"","LAST NAME");
+		}
+		if (!details.getAddress().equals(address)) {
+			audit_update(empId, "update", details.getAddress(),address,details.getCreatedBy(),details.getCreatedDate(),user,"","ADDRESS");
+		}
+		if (!(details.getSalary()==salary)) {
+			audit_updatesal(empId, "update", details.getSalary(),salary,details.getCreatedBy(),details.getCreatedDate(),user,"","SALARY");
+		}
+		} catch (Exception e) {
+			status="failed";
+		}
+		return status;
+	}
+	public static Employee getEmp(int empid){
+		Connection con=ConnectionManager.getConnection();
+		Employee emp=null;
+		int slno=0;
+		try {
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery("select * from audit_emp where EMP_ID="+empid+"");
+			
+			if (rs!=null) {
+				if(rs.next()){
+					emp=new Employee();
+					emp.setEmp_id(rs.getInt(1));
+					emp.setFirstName(rs.getString(2));
+					emp.setLastName(rs.getString(3));
+					emp.setAddress(rs.getString(4));
+					emp.setSalary(rs.getInt(5));
+				}
+			}
+			else{
+				try {
+					throw new Exception("Employee Number not exist");
+				} catch (Exception e) {
+				}
+			}
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return emp;
+	}
+	public static List<AuditDetails> fetchAudit(){
+		Connection con=ConnectionManager.getConnection();
+		List<AuditDetails> auditDetails=new ArrayList<AuditDetails>();
+		AuditDetails audit=null;
+		int slno=0;
+		try {
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery("select * from audit_emp");
+			while(rs.next()){
+				audit=new AuditDetails();
+				audit.setEmpId(rs.getInt(1));
+				audit.setFirstName(rs.getString(2));
+				audit.setLastName(rs.getString(3));
+				audit.setAddress(rs.getString(4));
+				audit.setSalary(rs.getInt(5));
+				audit.setCreatedDate(rs.getString(6));
+				audit.setCreatedBy(rs.getString(7));
+				audit.setModifiedDate(rs.getString(8));
+				audit.setModifiedBy(rs.getString(9));
+				auditDetails.add(audit);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return auditDetails;
+	} 
+	public static void  audit_insert(int emp_Id,String operation_Type , String oldValue,String newValue,String createdBy,String createdDate,String modifiedBy,String modifiedDate){
+		try {
+			Connection con=ConnectionManager.getConnection();
+			Statement st=con.createStatement();
+			st.executeUpdate("insert into audit_tracking values("+emp_Id+",'"+operation_Type+"','"+oldValue+"','"+newValue+"','"+createdBy+"',SYSDATE,'"+modifiedBy+"',SYSDATE,'All')");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static AuditDetails fetchAuditEmp(int empId){
+		Connection con=ConnectionManager.getConnection();
+		AuditDetails audit=null;
+		int slno=0;
+		try {
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery("select * from audit_emp where emp_id="+empId+"");
+			if(rs.next()){
+				audit=new AuditDetails();
+				audit.setEmpId(rs.getInt(1));
+				audit.setFirstName(rs.getString(2));
+				audit.setLastName(rs.getString(3));
+				audit.setAddress(rs.getString(4));
+				audit.setSalary(rs.getInt(5));
+				audit.setCreatedDate(rs.getString(6));
+				audit.setCreatedBy(rs.getString(7));
+				audit.setModifiedDate(rs.getString(8));
+				audit.setModifiedBy(rs.getString(9));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return audit;
+	} 
+	public static void  audit_update(int emp_Id,String operation_Type , String oldValue,String newValue,String createdBy,String createdDate,String modifiedBy,String modifiedDate,String modColumn){
+		try {
+			Connection con=ConnectionManager.getConnection();
+			Statement st=con.createStatement();
+			st.executeUpdate("insert into audit_tracking values("+emp_Id+",'"+operation_Type+"','"+oldValue+"','"+newValue+"','"+createdBy+"','"+createdDate+"','"+modifiedBy+"',SYSDATE,'"+modColumn+"')");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void  audit_updatesal(int emp_Id,String operation_Type , int oldValue,int newValue,String createdBy,String createdDate,String modifiedBy,String modifiedDate,String modColumn){
+
+		try {
+			Connection con=ConnectionManager.getConnection();
+			Statement st=con.createStatement();
+			st.executeUpdate("insert into audit_tracking values("+emp_Id+",'"+operation_Type+"','"+oldValue+"','"+newValue+"','"+createdBy+"','"+createdDate+"','"+modifiedBy+"',SYSDATE,'"+modColumn+"')");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static List<AuditTracking> fetchAuditTracking(){
+		Connection con=ConnectionManager.getConnection();
+		List<AuditTracking> auditDetails=new ArrayList<AuditTracking>();
+		AuditTracking audit=null;
+		int slno=0;
+		try {
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery("select * from audit_tracking");
+			while(rs.next()){
+				audit=new AuditTracking();
+				audit.setEmpId(rs.getInt(1));
+				audit.setOprationType(rs.getString(2));
+				audit.setOldValue(rs.getString(3));
+				audit.setNewValue(rs.getString(4));
+				audit.setCreatedBy(rs.getString(5));
+				audit.setCreatedDate(rs.getString(6));
+				audit.setLastModifiedBy(rs.getString(7));
+				audit.setLastModifiedDate(rs.getString(8));
+				audit.setModColumn(rs.getString(9));
+				auditDetails.add(audit);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return auditDetails;
+	} 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
